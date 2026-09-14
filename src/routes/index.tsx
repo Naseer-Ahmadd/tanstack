@@ -1,17 +1,12 @@
 import SkillCard from '#/components/SkillCard'
-import { createFileRoute , useRouter , notFound} from '@tanstack/react-router'
+import { getPokemonFn } from '#/server/pokemon'
+import { createFileRoute , useRouter } from '@tanstack/react-router'
 
-const pokeapiurl='https://pokeapi.co/api/v2/pokemon'
 export const Route = createFileRoute('/')({ component: Home,
   pendingComponent: () => <div className="p-8 text-center">Loading...</div>,
   pendingMs: 500,
   loader: async () =>{
-    const response = await fetch(pokeapiurl)
-    // if (!response.ok) {
-      // throw new Error('Failed to fetch data from pokeapi')
-    // }
-    throw notFound()
-    const data = await response.json()
+    const data = await getPokemonFn();
     return data;
   },
   errorComponent: ({ error }) => {
